@@ -1,0 +1,610 @@
+{
+  "candidate": {
+    "candidate_id": "3c3ba04fa49f08e0",
+    "frozen_at": "2026-08-11T15:53:25.662951+00:00",
+    "source_tree_sha256": "3c3ba04fa49f08e086d4f74d4b1e986c1f41f556d6db1f532f32dea0c113a428",
+    "uv_lock_sha256": "2cb9fb532ea86ebc19bcd5bacb73a72ad5bb663d6551aa5085ca11bab5c8ccc5",
+    "migration_head": 1,
+    "pact_schema_version": 1,
+    "event_schema_version": 1,
+    "bundle_schema_version": 1,
+    "python": "3.12.13",
+    "platform": "Darwin arm64",
+    "git": "git version 2.50.1 (Apple Git-155)",
+    "opencode": "1.18.15",
+    "note": "no Git commit: repository is not a Git repo (no-commit constraint)"
+  },
+  "stages": {
+    "static": {
+      "stage": "static",
+      "checks": [
+        {
+          "label": "ruff",
+          "command": "uv run ruff check src tests scripts",
+          "returncode": 0,
+          "duration_s": 0.0,
+          "stdout": "All checks passed!\n",
+          "stderr": ""
+        },
+        {
+          "label": "mypy",
+          "command": "uv run mypy src",
+          "returncode": 0,
+          "duration_s": 0.9,
+          "stdout": "Success: no issues found in 48 source files\n",
+          "stderr": ""
+        },
+        {
+          "label": "pip-audit",
+          "command": "uv run pip-audit",
+          "returncode": 0,
+          "duration_s": 1.8,
+          "stdout": "Name     Skip Reason\n-------- -----------------------------------------------------------------------\ntreepact Dependency not found on PyPI and could not be audited: treepact (0.1.0)\n",
+          "stderr": "No known vulnerabilities found\n"
+        },
+        {
+          "label": "lockfile",
+          "command": "uv lock --check",
+          "returncode": 0,
+          "duration_s": 0.0,
+          "stdout": "",
+          "stderr": "Resolved 56 packages in 3ms\n"
+        },
+        {
+          "label": "compile",
+          "command": "uv run python -m compileall -q src",
+          "returncode": 0,
+          "duration_s": 0.0,
+          "stdout": "",
+          "stderr": ""
+        }
+      ],
+      "forbidden_api_hits": [],
+      "returncode": 0,
+      "schemas_valid": [
+        "event.schema.json",
+        "evidence.schema.json",
+        "pact.schema.json",
+        "runtime.schema.json"
+      ],
+      "migration_inventory": [
+        {
+          "version": 1,
+          "name": "initial_schema.",
+          "sha256": "c6647b34b21935d8"
+        }
+      ],
+      "duration_s": 2.8
+    },
+    "unit": {
+      "label": "unit",
+      "command": "uv run pytest tests/unit tests/property --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 0.9,
+      "stdout": "........................................................................ [ 63%]\n.........................................                                [100%]\n",
+      "stderr": ""
+    },
+    "integration": {
+      "label": "integration",
+      "command": "uv run pytest tests/integration --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 5.1,
+      "stdout": "..................                                                       [100%]\n",
+      "stderr": ""
+    },
+    "adversarial": {
+      "label": "adversarial",
+      "command": "uv run pytest tests/security --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 6.9,
+      "stdout": "................                                                         [100%]\n",
+      "stderr": ""
+    },
+    "recovery": {
+      "label": "recovery",
+      "command": "uv run pytest tests/recovery --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 1.4,
+      "stdout": "...........                                                              [100%]\n",
+      "stderr": ""
+    },
+    "resources": {
+      "label": "resources",
+      "command": "uv run pytest tests/resources --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 2.3,
+      "stdout": ".....                                                                    [100%]\n",
+      "stderr": ""
+    },
+    "evals": {
+      "label": "evals",
+      "command": "uv run pytest tests/evals --timeout=300 -q",
+      "returncode": 0,
+      "duration_s": 5.6,
+      "stdout": ".......                                                                  [100%]\n",
+      "stderr": ""
+    },
+    "runtime": {
+      "stage": "runtime",
+      "comparison": {
+        "match": true,
+        "native": {
+          "runtime": "native",
+          "decision": "needs_review",
+          "state": "needs_review",
+          "pact": "adbfa6ccab5a80005666068f8ca7fcdff499871902d6e68920bf7d89813b056b",
+          "gates": {
+            "no_denied_paths_changed": "passed",
+            "no_secrets_in_diff": "passed",
+            "required_checks_pass": "insufficient_evidence",
+            "evidence_complete": "insufficient_evidence",
+            "worktree_consistent": "passed"
+          },
+          "assurance": "TP3"
+        },
+        "opencode": {
+          "runtime": "opencode",
+          "decision": "needs_review",
+          "state": "needs_review",
+          "pact": "adbfa6ccab5a80005666068f8ca7fcdff499871902d6e68920bf7d89813b056b",
+          "gates": {
+            "no_denied_paths_changed": "passed",
+            "no_secrets_in_diff": "passed",
+            "required_checks_pass": "insufficient_evidence",
+            "worktree_consistent": "passed",
+            "evidence_complete": "insufficient_evidence"
+          },
+          "assurance": "TP2"
+        },
+        "same_pact": true,
+        "same_gates": true
+      },
+      "returncode": 0,
+      "duration_s": 308.3
+    },
+    "audit": {
+      "stage": "audit",
+      "matrix_rows": 54,
+      "matrix": [
+        {
+          "requirement_id": "CLI-001",
+          "risk": "CLI-001 stable commands",
+          "test": "cli-behavior",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "CLI-004",
+          "risk": "CLI-004 validate does not execute",
+          "test": "validate-no-exec",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "CLI-005",
+          "risk": "CLI-005 verify no rerun",
+          "test": "verify-no-rerun",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "EVID-001",
+          "risk": "EVID-001 monotonic sequence",
+          "test": "monotonic",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "EVID-002",
+          "risk": "EVID-002 chain corruption detected",
+          "test": "chain",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "EVID-003",
+          "risk": "EVID-003 SHA-256 artifacts",
+          "test": "artifacts-sha",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "EVID-005",
+          "risk": "EVID-005 no full prompts stored",
+          "test": "no-prompts",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "EVID-006",
+          "risk": "EVID-006 export records event",
+          "test": "export-event",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "GATE-001",
+          "risk": "GATE-001 TreePact-recorded checks",
+          "test": "gate-facts",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "GATE-002",
+          "risk": "GATE-002 required checks terminal",
+          "test": "gate-required",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "GATE-003",
+          "risk": "GATE-003 denied path blocks",
+          "test": "gate-denied-paths",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "GATE-004",
+          "risk": "GATE-004 secret in diff blocks",
+          "test": "gate-secrets",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "GATE-005",
+          "risk": "GATE-005 evidence completeness",
+          "test": "gate-evidence",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "INT-007",
+          "risk": "INT-007 same Pact native+external",
+          "test": "same-pact",
+          "layer": "runtime",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-001",
+          "risk": "PACT-001 unknown fields rejected",
+          "test": "pact-strict",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-002",
+          "risk": "PACT-002 absolute/traversal rejected",
+          "test": "pact-paths",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-003",
+          "risk": "PACT-003 deny overrides allow",
+          "test": "pact-deny",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-004",
+          "risk": "PACT-004 argv arrays only",
+          "test": "pact-argv",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-005",
+          "risk": "PACT-005 attempts <= 3",
+          "test": "pact-attempts",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-006",
+          "risk": "PACT-006 immutable pact hash",
+          "test": "pact-hash",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PACT-007",
+          "risk": "PACT-007 CLI never expands",
+          "test": "pact-cli-limits",
+          "layer": "property",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PRD-001",
+          "risk": "PRD-001 no portfolio imports",
+          "test": "standalone",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PRD-002",
+          "risk": "PRD-002 local repo + CLI",
+          "test": "cli-local-flow",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "PRD-003",
+          "risk": "PRD-003 no publication commands",
+          "test": "no-publication",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RES-001",
+          "risk": "RES-001 one mutating run",
+          "test": "one-mutating",
+          "layer": "resources",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RES-002",
+          "risk": "RES-002 one large lease",
+          "test": "one-large-lease",
+          "layer": "resources",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RES-003",
+          "risk": "RES-003 critical pressure blocks",
+          "test": "pressure-blocks",
+          "layer": "resources",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RT-001",
+          "risk": "RT-001 model cannot decide",
+          "test": "model-no-decision",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RT-002",
+          "risk": "RT-002 invalid proposals fail closed",
+          "test": "fail-closed",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RT-003",
+          "risk": "RT-003 no silent fallback",
+          "test": "no-fallback",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "RT-005",
+          "risk": "RT-005 bounded turns/attempts",
+          "test": "budgets",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "SEC-001",
+          "risk": "SEC-001 prompt injection no expansion",
+          "test": "injection",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "SEC-002",
+          "risk": "SEC-002 canary never reaches model",
+          "test": "canary",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "SEC-003",
+          "risk": "SEC-003 another repo not readable",
+          "test": "another-repo",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "SEC-004",
+          "risk": "SEC-004 publication impossible",
+          "test": "publication",
+          "layer": "evals",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-001",
+          "risk": "STATE-001 illegal transitions",
+          "test": "state-machines",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-002",
+          "risk": "STATE-002 attempts <= snapshot",
+          "test": "attempts-limit",
+          "layer": "property",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-003",
+          "risk": "STATE-003 discovery",
+          "test": "interrupted-discovery",
+          "layer": "recovery",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-004",
+          "risk": "STATE-004 uncertain blocks resume",
+          "test": "uncertain-blocks",
+          "layer": "recovery",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-005",
+          "risk": "STATE-005 cancel preserves",
+          "test": "cancel-evidence",
+          "layer": "recovery",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-006",
+          "risk": "STATE-006 resume verification",
+          "test": "resume-verify",
+          "layer": "recovery",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "STATE-007",
+          "risk": "STATE-007 waiting no attempt",
+          "test": "wait-no-attempt",
+          "layer": "resources",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-002",
+          "risk": "TOOL-002 no shell tool",
+          "test": "no-shell",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-003",
+          "risk": "TOOL-003 run_check by ID",
+          "test": "check-by-id",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-004",
+          "risk": "TOOL-004 allowlisted env",
+          "test": "env-allowlist",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-005",
+          "risk": "TOOL-005 no SSH vars",
+          "test": "no-ssh-env",
+          "layer": "unit",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-006",
+          "risk": "TOOL-006 modified inputs block",
+          "test": "input-drift",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-007",
+          "risk": "TOOL-007 timeout kills group only",
+          "test": "timeout-group",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "TOOL-008",
+          "risk": "TOOL-008 explicit truncation",
+          "test": "truncation",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "WS-002",
+          "risk": "WS-002 no escapes",
+          "test": "path-broker",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "WS-003",
+          "risk": "WS-003 .git inaccessible",
+          "test": "git-denied",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "WS-004",
+          "risk": "WS-004 symlink escape denied",
+          "test": "symlink",
+          "layer": "security",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "WS-005",
+          "risk": "WS-005 independent reconciliation",
+          "test": "reconcile",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        },
+        {
+          "requirement_id": "WS-006",
+          "risk": "WS-006 worktree until cleanup",
+          "test": "worktree-retained",
+          "layer": "integration",
+          "candidate": "3c3ba04fa49f08e0",
+          "result": "executed"
+        }
+      ],
+      "secret_hits": [],
+      "candidate_consistent_with_lockfile": true,
+      "migrations_inventory_present": true,
+      "initial_campaign_preserved": true,
+      "returncode": 0,
+      "duration_s": 0.0
+    }
+  }
+}

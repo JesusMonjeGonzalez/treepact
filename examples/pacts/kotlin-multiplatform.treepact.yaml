@@ -1,0 +1,77 @@
+# TreePact Pact de referencia - Kotlin Multiplatform
+# Sustituir {project_id} y ajustar al repositorio real.
+# Gradle: usa el wrapper del repo (./gradlew) con argv fijo; nunca
+# configuracion remota de Gradle. El network de checks es denied: Gradle
+# descargara dependencias solo si el repo las tiene cacheadas; para el
+# piloto, prefijar un gradle offline o cache local si el build lo requiere.
+version: 1
+project:
+  id: {project_id}
+  toolchain: kotlin
+
+workspace:
+  readable:
+    - .
+  writable:
+    - src/
+    - shared/src/
+    - iosApp/
+  denied:
+    - .git/
+    - .env
+    - .gradle/
+    - build/
+    - local.properties
+
+checks:
+  build:
+    argv: ["./gradlew", "build", "-x", "test", "--offline"]
+    timeout_seconds: 3600
+    required: true
+    phases: ["attempt", "final"]
+    modes: ["repair"]
+  unit:
+    argv: ["./gradlew", "test", "--offline"]
+    timeout_seconds: 3600
+    required: true
+    phases: ["final"]
+    modes: ["repair"]
+  lint:
+    argv: ["./gradlew", "lint", "--offline"]
+    timeout_seconds: 1800
+    required: false
+    phases: ["final"]
+    modes: ["repair"]
+
+gates:
+  - required_checks_pass
+  - no_denied_paths_changed
+  - no_secrets_in_diff
+  - worktree_consistent
+  - evidence_complete
+
+limits:
+  attempts: 3
+  turns_per_attempt: 25
+  minutes: 120
+  context_bytes: 1000000
+  max_input_tokens: 128000
+  max_output_tokens: 16000
+  model_profile: deep-code
+  memory_mb: 24000
+  network:
+    runtime: loopback_only
+    checks: denied
+
+actions:
+  unavailable:
+    - commit
+    - push
+    - merge
+    - publish
+    - deploy
+    - release
+    - access_credentials
+    - modify_pact
+    - destructive_delete
+    - external_message

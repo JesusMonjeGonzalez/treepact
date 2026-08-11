@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+build/
+dist/
+*.egg-info/
+
+# Tooling caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Local state
+verification/pilot/
+
+# Internal operations documents (not part of the public project)
+HANDOFF.md
+FRESH_START_PROMPT.md
+MEGA_PROMPT_IMPLEMENTATION.txt
+docs/operations/M10_PILOT_RUNBOOK.md
+
+# OS
+.DS_Store

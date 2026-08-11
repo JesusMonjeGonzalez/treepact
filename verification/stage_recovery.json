@@ -1,0 +1,8 @@
+{
+  "label": "recovery",
+  "command": "uv run pytest tests/recovery --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 1.4,
+  "stdout": "...........                                                              [100%]\n",
+  "stderr": ""
+}

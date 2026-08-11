@@ -1,0 +1,8 @@
+{
+  "label": "adversarial",
+  "command": "uv run pytest tests/security --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 6.9,
+  "stdout": "................                                                         [100%]\n",
+  "stderr": ""
+}

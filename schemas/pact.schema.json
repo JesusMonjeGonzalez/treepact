@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://treepact.local/schemas/pact.schema.json",
+  "title": "TreePact repository pact",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["version", "project", "workspace", "checks", "gates", "limits", "actions"],
+  "properties": {
+    "version": {
+      "const": 1
+    },
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "toolchain"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$"
+        },
+        "toolchain": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64
+        }
+      }
+    },
+    "workspace": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["readable", "writable", "denied"],
+      "properties": {
+        "readable": {
+          "$ref": "#/$defs/pathList"
+        },
+        "writable": {
+          "$ref": "#/$defs/pathList"
+        },
+        "denied": {
+          "$ref": "#/$defs/pathList"
+        }
+      }
+    },
+    "checks": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": {
+        "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+      },
+      "additionalProperties": {
+        "$ref": "#/$defs/check"
+      }
+    },
+    "gates": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "required_checks_pass",
+          "no_denied_paths_changed",
+          "no_secrets_in_diff",
+          "worktree_consistent",
+          "evidence_complete"
+        ]
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempts",
+        "turns_per_attempt",
+        "minutes",
+        "context_bytes",
+        "max_input_tokens",
+        "max_output_tokens",
+        "model_profile",
+        "memory_mb",
+        "network"
+      ],
+      "properties": {
+        "attempts": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 3
+        },
+        "turns_per_attempt": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "minutes": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 480
+        },
+        "context_bytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 10000000
+        },
+        "max_input_tokens": {
+          "type": "integer",
+          "minimum": 256,
+          "maximum": 1000000
+        },
+        "max_output_tokens": {
+          "type": "integer",
+          "minimum": 128,
+          "maximum": 100000
+        },
+        "model_profile": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]{0,63}$"
+        },
+        "memory_mb": {
+          "type": "integer",
+          "minimum": 512,
+          "maximum": 32768
+        },
+        "network": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["runtime", "checks"],
+          "properties": {
+            "runtime": {
+              "enum": ["denied", "loopback_only"]
+            },
+            "checks": {
+              "enum": ["denied", "loopback_only"]
+            }
+          }
+        }
+      }
+    },
+    "actions": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["unavailable"],
+      "properties": {
+        "unavailable": {
+          "type": "array",
+          "minItems": 10,
+          "uniqueItems": true,
+          "allOf": [
+            { "contains": { "const": "commit" } },
+            { "contains": { "const": "push" } },
+            { "contains": { "const": "merge" } },
+            { "contains": { "const": "publish" } },
+            { "contains": { "const": "deploy" } },
+            { "contains": { "const": "release" } },
+            { "contains": { "const": "access_credentials" } },
+            { "contains": { "const": "modify_pact" } },
+            { "contains": { "const": "destructive_delete" } },
+            { "contains": { "const": "external_message" } }
+          ],
+          "items": {
+            "enum": [
+              "commit",
+              "push",
+              "merge",
+              "publish",
+              "deploy",
+              "release",
+              "access_credentials",
+              "modify_pact",
+              "destructive_delete",
+              "external_message"
+            ]
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "relativePath": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "not": {
+        "anyOf": [
+          { "pattern": "^/" },
+          { "pattern": "(^|/)\\.\\.(/|$)" },
+          { "pattern": "\\u0000" }
+        ]
+      }
+    },
+    "pathList": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "$ref": "#/$defs/relativePath"
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["argv", "timeout_seconds", "required", "phases", "modes"],
+      "properties": {
+        "argv": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "description": "Exec-style argv. The first token cannot be a shell. The Pact compiler additionally rejects env-to-shell indirection and interpreter inline-evaluation flags.",
+          "prefixItems": [
+            {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2048,
+              "not": {
+                "pattern": "(^|/)(sh|bash|zsh|csh|tcsh|ksh|fish)$"
+              }
+            }
+          ],
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2048
+          }
+        },
+        "phases": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["attempt", "final"]
+          }
+        },
+        "modes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": ["observe", "repair"]
+          }
+        },
+        "cwd": {
+          "$ref": "#/$defs/relativePath"
+        },
+        "timeout_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 7200
+        },
+        "required": {
+          "type": "boolean"
+        }
+      }
+    }
+  }
+}

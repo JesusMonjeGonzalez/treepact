@@ -1,0 +1,15 @@
+{
+  "candidate_id": "3c3ba04fa49f08e0",
+  "frozen_at": "2026-08-11T15:53:25.662951+00:00",
+  "source_tree_sha256": "3c3ba04fa49f08e086d4f74d4b1e986c1f41f556d6db1f532f32dea0c113a428",
+  "uv_lock_sha256": "2cb9fb532ea86ebc19bcd5bacb73a72ad5bb663d6551aa5085ca11bab5c8ccc5",
+  "migration_head": 1,
+  "pact_schema_version": 1,
+  "event_schema_version": 1,
+  "bundle_schema_version": 1,
+  "python": "3.12.13",
+  "platform": "Darwin arm64",
+  "git": "git version 2.50.1 (Apple Git-155)",
+  "opencode": "1.18.15",
+  "note": "no Git commit: repository is not a Git repo (no-commit constraint)"
+}

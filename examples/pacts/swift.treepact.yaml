@@ -1,0 +1,73 @@
+# TreePact Pact de referencia - Swift
+# Sustituir {project_id} y ajustar al repositorio real.
+# Los builds Xcode son pesados: memory_mb alto y timeout generoso; el
+# scheduler reserva memoria de macOS antes de cada build.
+version: 1
+project:
+  id: {project_id}
+  toolchain: swift
+
+workspace:
+  readable:
+    - .
+  writable:
+    - Sources/
+    - Tests/
+  denied:
+    - .git/
+    - .env
+    - Pods/
+    - DerivedData/
+
+checks:
+  build:
+    argv: ["xcodebuild", "-project", "{project}.xcodeproj", "-scheme", "{Scheme}", "-destination", "platform=macOS", "build"]
+    timeout_seconds: 3600
+    required: true
+    phases: ["attempt", "final"]
+    modes: ["repair"]
+  unit:
+    argv: ["xcodebuild", "-project", "{project}.xcodeproj", "-scheme", "{Scheme}", "-destination", "platform=macOS", "test"]
+    timeout_seconds: 3600
+    required: true
+    phases: ["final"]
+    modes: ["repair"]
+  lint:
+    argv: ["swiftlint", "lint", "--quiet"]
+    timeout_seconds: 600
+    required: false
+    phases: ["final"]
+    modes: ["repair"]
+
+gates:
+  - required_checks_pass
+  - no_denied_paths_changed
+  - no_secrets_in_diff
+  - worktree_consistent
+  - evidence_complete
+
+limits:
+  attempts: 3
+  turns_per_attempt: 25
+  minutes: 120
+  context_bytes: 1000000
+  max_input_tokens: 128000
+  max_output_tokens: 16000
+  model_profile: deep-code
+  memory_mb: 24000
+  network:
+    runtime: loopback_only
+    checks: denied
+
+actions:
+  unavailable:
+    - commit
+    - push
+    - merge
+    - publish
+    - deploy
+    - release
+    - access_credentials
+    - modify_pact
+    - destructive_delete
+    - external_message

@@ -1,0 +1,444 @@
+{
+  "stage": "audit",
+  "matrix_rows": 54,
+  "matrix": [
+    {
+      "requirement_id": "CLI-001",
+      "risk": "CLI-001 stable commands",
+      "test": "cli-behavior",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "CLI-004",
+      "risk": "CLI-004 validate does not execute",
+      "test": "validate-no-exec",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "CLI-005",
+      "risk": "CLI-005 verify no rerun",
+      "test": "verify-no-rerun",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "EVID-001",
+      "risk": "EVID-001 monotonic sequence",
+      "test": "monotonic",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "EVID-002",
+      "risk": "EVID-002 chain corruption detected",
+      "test": "chain",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "EVID-003",
+      "risk": "EVID-003 SHA-256 artifacts",
+      "test": "artifacts-sha",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "EVID-005",
+      "risk": "EVID-005 no full prompts stored",
+      "test": "no-prompts",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "EVID-006",
+      "risk": "EVID-006 export records event",
+      "test": "export-event",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "GATE-001",
+      "risk": "GATE-001 TreePact-recorded checks",
+      "test": "gate-facts",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "GATE-002",
+      "risk": "GATE-002 required checks terminal",
+      "test": "gate-required",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "GATE-003",
+      "risk": "GATE-003 denied path blocks",
+      "test": "gate-denied-paths",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "GATE-004",
+      "risk": "GATE-004 secret in diff blocks",
+      "test": "gate-secrets",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "GATE-005",
+      "risk": "GATE-005 evidence completeness",
+      "test": "gate-evidence",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "INT-007",
+      "risk": "INT-007 same Pact native+external",
+      "test": "same-pact",
+      "layer": "runtime",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-001",
+      "risk": "PACT-001 unknown fields rejected",
+      "test": "pact-strict",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-002",
+      "risk": "PACT-002 absolute/traversal rejected",
+      "test": "pact-paths",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-003",
+      "risk": "PACT-003 deny overrides allow",
+      "test": "pact-deny",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-004",
+      "risk": "PACT-004 argv arrays only",
+      "test": "pact-argv",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-005",
+      "risk": "PACT-005 attempts <= 3",
+      "test": "pact-attempts",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-006",
+      "risk": "PACT-006 immutable pact hash",
+      "test": "pact-hash",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PACT-007",
+      "risk": "PACT-007 CLI never expands",
+      "test": "pact-cli-limits",
+      "layer": "property",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PRD-001",
+      "risk": "PRD-001 no portfolio imports",
+      "test": "standalone",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PRD-002",
+      "risk": "PRD-002 local repo + CLI",
+      "test": "cli-local-flow",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "PRD-003",
+      "risk": "PRD-003 no publication commands",
+      "test": "no-publication",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RES-001",
+      "risk": "RES-001 one mutating run",
+      "test": "one-mutating",
+      "layer": "resources",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RES-002",
+      "risk": "RES-002 one large lease",
+      "test": "one-large-lease",
+      "layer": "resources",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RES-003",
+      "risk": "RES-003 critical pressure blocks",
+      "test": "pressure-blocks",
+      "layer": "resources",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RT-001",
+      "risk": "RT-001 model cannot decide",
+      "test": "model-no-decision",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RT-002",
+      "risk": "RT-002 invalid proposals fail closed",
+      "test": "fail-closed",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RT-003",
+      "risk": "RT-003 no silent fallback",
+      "test": "no-fallback",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "RT-005",
+      "risk": "RT-005 bounded turns/attempts",
+      "test": "budgets",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "SEC-001",
+      "risk": "SEC-001 prompt injection no expansion",
+      "test": "injection",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "SEC-002",
+      "risk": "SEC-002 canary never reaches model",
+      "test": "canary",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "SEC-003",
+      "risk": "SEC-003 another repo not readable",
+      "test": "another-repo",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "SEC-004",
+      "risk": "SEC-004 publication impossible",
+      "test": "publication",
+      "layer": "evals",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-001",
+      "risk": "STATE-001 illegal transitions",
+      "test": "state-machines",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-002",
+      "risk": "STATE-002 attempts <= snapshot",
+      "test": "attempts-limit",
+      "layer": "property",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-003",
+      "risk": "STATE-003 discovery",
+      "test": "interrupted-discovery",
+      "layer": "recovery",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-004",
+      "risk": "STATE-004 uncertain blocks resume",
+      "test": "uncertain-blocks",
+      "layer": "recovery",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-005",
+      "risk": "STATE-005 cancel preserves",
+      "test": "cancel-evidence",
+      "layer": "recovery",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-006",
+      "risk": "STATE-006 resume verification",
+      "test": "resume-verify",
+      "layer": "recovery",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "STATE-007",
+      "risk": "STATE-007 waiting no attempt",
+      "test": "wait-no-attempt",
+      "layer": "resources",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-002",
+      "risk": "TOOL-002 no shell tool",
+      "test": "no-shell",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-003",
+      "risk": "TOOL-003 run_check by ID",
+      "test": "check-by-id",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-004",
+      "risk": "TOOL-004 allowlisted env",
+      "test": "env-allowlist",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-005",
+      "risk": "TOOL-005 no SSH vars",
+      "test": "no-ssh-env",
+      "layer": "unit",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-006",
+      "risk": "TOOL-006 modified inputs block",
+      "test": "input-drift",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-007",
+      "risk": "TOOL-007 timeout kills group only",
+      "test": "timeout-group",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "TOOL-008",
+      "risk": "TOOL-008 explicit truncation",
+      "test": "truncation",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "WS-002",
+      "risk": "WS-002 no escapes",
+      "test": "path-broker",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "WS-003",
+      "risk": "WS-003 .git inaccessible",
+      "test": "git-denied",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "WS-004",
+      "risk": "WS-004 symlink escape denied",
+      "test": "symlink",
+      "layer": "security",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "WS-005",
+      "risk": "WS-005 independent reconciliation",
+      "test": "reconcile",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    },
+    {
+      "requirement_id": "WS-006",
+      "risk": "WS-006 worktree until cleanup",
+      "test": "worktree-retained",
+      "layer": "integration",
+      "candidate": "3c3ba04fa49f08e0",
+      "result": "executed"
+    }
+  ],
+  "secret_hits": [],
+  "candidate_consistent_with_lockfile": true,
+  "migrations_inventory_present": true,
+  "initial_campaign_preserved": true,
+  "returncode": 0,
+  "duration_s": 0.0
+}

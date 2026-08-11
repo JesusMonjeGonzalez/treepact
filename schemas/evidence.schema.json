@@ -1,0 +1,172 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://treepact.local/schemas/evidence.schema.json",
+  "title": "TreePact Decision Bundle manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "bundle_schema_version",
+    "run_id",
+    "project_id",
+    "repository_identity",
+    "base_commit",
+    "workspace_state",
+    "final_tree_digest",
+    "final_tree_reason_code",
+    "pact_sha256",
+    "runtime",
+    "assurance_level",
+    "attempts",
+    "checks",
+    "gates",
+    "policy_denials",
+    "resource_summary",
+    "decision",
+    "artifacts",
+    "event_chain_head",
+    "generated_at"
+  ],
+  "properties": {
+    "bundle_schema_version": { "const": 1 },
+    "run_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "project_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+    "repository_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["git_common_dir_digest", "root_label"],
+      "properties": {
+        "git_common_dir_digest": { "$ref": "#/$defs/digest" },
+        "root_label": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "base_commit": { "type": "string", "pattern": "^[a-f0-9]{40,64}$" },
+    "workspace_state": {
+      "enum": ["not_created", "active", "reconciled", "removed"]
+    },
+    "final_tree_digest": {
+      "anyOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "final_tree_reason_code": {
+      "type": ["string", "null"],
+      "maxLength": 128
+    },
+    "pact_sha256": { "$ref": "#/$defs/digest" },
+    "runtime": { "$ref": "#/$defs/runtime" },
+    "assurance_level": { "enum": ["TP0", "TP1", "TP2", "TP3"] },
+    "attempts": { "type": "array", "items": { "$ref": "#/$defs/attempt" } },
+    "checks": { "type": "array", "items": { "$ref": "#/$defs/check" } },
+    "gates": { "type": "array", "items": { "$ref": "#/$defs/gate" } },
+    "policy_denials": { "type": "array", "items": { "$ref": "#/$defs/policyDenial" } },
+    "resource_summary": { "$ref": "#/$defs/resourceSummary" },
+    "decision": {
+      "enum": [
+        "accepted",
+        "rejected",
+        "needs_review",
+        "failed",
+        "cancelled",
+        "infrastructure_error"
+      ]
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["artifact_id", "kind", "sha256", "size_bytes", "media_type"],
+        "properties": {
+          "artifact_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+          "sha256": { "$ref": "#/$defs/digest" },
+          "size_bytes": { "type": "integer", "minimum": 0 },
+          "media_type": { "type": "string", "minLength": 1, "maxLength": 255 }
+        }
+      }
+    },
+    "event_chain_head": { "$ref": "#/$defs/digest" },
+    "generated_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "digest": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "runtime": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["adapter_id", "adapter_version", "provider_id", "model_profile"],
+      "properties": {
+        "adapter_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "adapter_version": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "runtime_version": { "type": ["string", "null"], "maxLength": 128 },
+        "provider_id": { "type": ["string", "null"], "maxLength": 64 },
+        "model_profile": { "type": ["string", "null"], "maxLength": 64 },
+        "external_session_id": { "type": ["string", "null"], "maxLength": 256 }
+      }
+    },
+    "attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["attempt_number", "state", "termination_code"],
+      "properties": {
+        "attempt_number": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "state": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "termination_code": { "type": ["string", "null"], "maxLength": 128 }
+      }
+    },
+    "check": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["check_id", "phase", "state", "input_snapshot_sha256", "exit_code", "artifact_refs"],
+      "properties": {
+        "check_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "phase": { "enum": ["attempt", "final"] },
+        "state": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "input_snapshot_sha256": { "$ref": "#/$defs/digest" },
+        "exit_code": { "type": ["integer", "null"] },
+        "artifact_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 }
+        }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "state", "reason_code", "evidence_refs"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "state": { "enum": ["passed", "failed", "insufficient_evidence"] },
+        "reason_code": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "evidence_refs": {
+          "type": "array",
+          "items": { "type": "string", "minLength": 1, "maxLength": 128 }
+        }
+      }
+    },
+    "policyDenial": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tool_name", "rule_id", "reason_code"],
+      "properties": {
+        "tool_name": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "rule_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "reason_code": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "resourceSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["peak_process_memory_mb", "resource_wait_ms", "pressure_events", "lease_outcome"],
+      "properties": {
+        "peak_process_memory_mb": { "type": ["integer", "null"], "minimum": 0 },
+        "resource_wait_ms": { "type": "integer", "minimum": 0 },
+        "pressure_events": { "type": "integer", "minimum": 0 },
+        "lease_outcome": { "type": "string", "minLength": 1, "maxLength": 64 }
+      }
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "label": "integration",
+  "command": "uv run pytest tests/integration --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 5.1,
+  "stdout": "..................                                                       [100%]\n",
+  "stderr": ""
+}

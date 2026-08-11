@@ -1,0 +1,8 @@
+{
+  "label": "resources",
+  "command": "uv run pytest tests/resources --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 2.3,
+  "stdout": ".....                                                                    [100%]\n",
+  "stderr": ""
+}

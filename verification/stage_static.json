@@ -1,0 +1,61 @@
+{
+  "stage": "static",
+  "checks": [
+    {
+      "label": "ruff",
+      "command": "uv run ruff check src tests scripts",
+      "returncode": 0,
+      "duration_s": 0.0,
+      "stdout": "All checks passed!\n",
+      "stderr": ""
+    },
+    {
+      "label": "mypy",
+      "command": "uv run mypy src",
+      "returncode": 0,
+      "duration_s": 0.9,
+      "stdout": "Success: no issues found in 48 source files\n",
+      "stderr": ""
+    },
+    {
+      "label": "pip-audit",
+      "command": "uv run pip-audit",
+      "returncode": 0,
+      "duration_s": 1.8,
+      "stdout": "Name     Skip Reason\n-------- -----------------------------------------------------------------------\ntreepact Dependency not found on PyPI and could not be audited: treepact (0.1.0)\n",
+      "stderr": "No known vulnerabilities found\n"
+    },
+    {
+      "label": "lockfile",
+      "command": "uv lock --check",
+      "returncode": 0,
+      "duration_s": 0.0,
+      "stdout": "",
+      "stderr": "Resolved 56 packages in 3ms\n"
+    },
+    {
+      "label": "compile",
+      "command": "uv run python -m compileall -q src",
+      "returncode": 0,
+      "duration_s": 0.0,
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "forbidden_api_hits": [],
+  "returncode": 0,
+  "schemas_valid": [
+    "event.schema.json",
+    "evidence.schema.json",
+    "pact.schema.json",
+    "runtime.schema.json"
+  ],
+  "migration_inventory": [
+    {
+      "version": 1,
+      "name": "initial_schema.",
+      "sha256": "c6647b34b21935d8"
+    }
+  ],
+  "duration_s": 2.8
+}

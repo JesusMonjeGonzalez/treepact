@@ -1,0 +1,8 @@
+{
+  "label": "evals",
+  "command": "uv run pytest tests/evals --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 5.6,
+  "stdout": ".......                                                                  [100%]\n",
+  "stderr": ""
+}

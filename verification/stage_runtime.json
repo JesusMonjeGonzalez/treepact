@@ -1,0 +1,38 @@
+{
+  "stage": "runtime",
+  "comparison": {
+    "match": true,
+    "native": {
+      "runtime": "native",
+      "decision": "needs_review",
+      "state": "needs_review",
+      "pact": "adbfa6ccab5a80005666068f8ca7fcdff499871902d6e68920bf7d89813b056b",
+      "gates": {
+        "no_denied_paths_changed": "passed",
+        "no_secrets_in_diff": "passed",
+        "required_checks_pass": "insufficient_evidence",
+        "evidence_complete": "insufficient_evidence",
+        "worktree_consistent": "passed"
+      },
+      "assurance": "TP3"
+    },
+    "opencode": {
+      "runtime": "opencode",
+      "decision": "needs_review",
+      "state": "needs_review",
+      "pact": "adbfa6ccab5a80005666068f8ca7fcdff499871902d6e68920bf7d89813b056b",
+      "gates": {
+        "no_denied_paths_changed": "passed",
+        "no_secrets_in_diff": "passed",
+        "required_checks_pass": "insufficient_evidence",
+        "worktree_consistent": "passed",
+        "evidence_complete": "insufficient_evidence"
+      },
+      "assurance": "TP2"
+    },
+    "same_pact": true,
+    "same_gates": true
+  },
+  "returncode": 0,
+  "duration_s": 308.3
+}

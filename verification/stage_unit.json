@@ -1,0 +1,8 @@
+{
+  "label": "unit",
+  "command": "uv run pytest tests/unit tests/property --timeout=300 -q",
+  "returncode": 0,
+  "duration_s": 0.9,
+  "stdout": "........................................................................ [ 63%]\n.........................................                                [100%]\n",
+  "stderr": ""
+}
