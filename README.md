@@ -10,11 +10,23 @@
   <img src="https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12">
   <img src="https://img.shields.io/badge/license-MIT-2E7D32" alt="MIT license">
   <img src="https://img.shields.io/badge/tests-170%20passing-4A7C3C" alt="170 tests passing">
-  <img src="https://img.shields.io/badge/status-milestones%201%E2%80%939%20verified-9B59B6" alt="M1-M9 verified">
+  <img src="https://img.shields.io/badge/status-historical%20M1%E2%80%93M9%20verification-9B59B6" alt="Historical M1-M9 verification">
   <img src="https://img.shields.io/badge/data-local%20only-2E7D32" alt="Local-only data">
 </p>
 
 ---
+
+## Status
+
+The recorded M1-M9 candidate completed a nine-stage verification campaign and
+received a **go** verdict for an internal pilot. The published tree includes a
+small post-campaign refactor that anonymizes provider and project names for
+open-source distribution. The current tree passes the full test suite, ruff,
+and mypy; no new nine-stage campaign has been claimed for the published
+refactor.
+
+The internal pilot data and operator-specific runbooks are intentionally not
+part of this repository.
 
 ## Why
 
@@ -73,8 +85,9 @@ cd your-repo
 uv run --project /path/to/TreePact treepact init
 uv run --project /path/to/TreePact treepact validate
 
-# Point TreePact at a local OpenAI-compatible model gateway (loopback only)
-# ~/.config/treepact/config.toml
+# Point TreePact at a local OpenAI-compatible model gateway (loopback only).
+# First run `treepact config show` to see the platform-specific config path.
+# On macOS the default is ~/Library/Application Support/TreePact/config.toml.
 # [provider]
 # endpoint = "http://127.0.0.1:9292/v1"
 # profiles = { classify = "fast-model", fast-code = "code-model", deep-code = "deep-model" }
@@ -134,8 +147,8 @@ internal failure.
 
 TreePact was built under a strict verification policy (ADR-0011): every
 milestone's exit gate means *implemented-unverified* until a single consolidated
-campaign ran against a frozen candidate. The final campaign passed all nine
-stages:
+campaign ran against a frozen candidate. The recorded final campaign passed all
+nine stages:
 
 - 170 tests: unit, property-based, integration, security, recovery, resources,
   and evaluation suites
