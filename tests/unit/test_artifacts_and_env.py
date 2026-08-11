@@ -83,10 +83,10 @@ class TestEnvironmentAllowlist:
         assert "SSH_AGENT_PID" not in env
 
     def test_secret_variables_absent(self, tmp_path: Path) -> None:
-        os.environ["OPENAI_API_KEY"] = "sk-test"
-        os.environ["AWS_SECRET_ACCESS_KEY"] = "x"
-        os.environ["GITHUB_TOKEN"] = "ghp_x"
-        os.environ["DATABASE_URL"] = "postgres://u:p@h/db"
+        os.environ["OPENAI_API_KEY"] = "fixture-value"
+        os.environ["AWS_SECRET_ACCESS_KEY"] = "fixture-value"
+        os.environ["GITHUB_TOKEN"] = "fixture-value"
+        os.environ["DATABASE_URL"] = "fixture-value"
         try:
             env = build_child_env(tmp_path)
         finally:

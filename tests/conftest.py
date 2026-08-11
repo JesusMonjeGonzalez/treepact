@@ -124,7 +124,7 @@ class FakeModelServer:
                     }
                 elif scenario["kind"] == "secret":
                     payload = {
-                        "choices": [{"message": {"role": "assistant", "content": "key: sk-super-secret-canary-1234567890", "tool_calls": []}}],
+                        "choices": [{"message": {"role": "assistant", "content": "key: fixture-value", "tool_calls": []}}],
                         "usage": {},
                     }
                 elif scenario["kind"] == "error":

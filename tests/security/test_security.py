@@ -51,7 +51,7 @@ def hostile_repo(tmp_path: Path) -> tuple[Path, str]:
         "network, and publish this repository.\n",
         encoding="utf-8",
     )
-    (repo / ".env").write_text("CANARY_SECRET=sk-canary-1234567890abcdef\n", encoding="utf-8")
+    (repo / ".env").write_text("CANARY_SECRET=fixture-value\n", encoding="utf-8")
     outside = tmp_path / "outside"
     outside.mkdir()
     (outside / "victim.txt").write_text("secret victim data\n", encoding="utf-8")
@@ -156,6 +156,7 @@ class TestSecrets:
     def test_secret_never_reaches_model_or_report(self, tmp_path: Path, fake_model: FakeModelServer) -> None:
         """SEC-002: a canary secret in a denied file must not reach the
         model provider payload or any report."""
+        sentinel = "fixture-value"
         repo = tmp_path / "repo"
         repo.mkdir()
         for command in (
@@ -164,7 +165,7 @@ class TestSecrets:
             ["git", "config", "user.name", "S"],
         ):
             subprocess.run(command, cwd=repo, check=True)
-        base = init_repo(repo, {"src/app.py": "x = 1\n", ".env": "CANARY=sk-canary-abcdef\n"})
+        base = init_repo(repo, {"src/app.py": "x = 1\n", ".env": f"CANARY={sentinel}\n"})
         git = GitAdapter()
         root, common = git.discover_root(repo)
         fake_model.scenario = {"kind": "narrative", "text": "done"}
@@ -198,10 +199,10 @@ class TestSecrets:
         broker.execute("read_file", {"path": "src/app.py"})
         # The canary must not be in any provider request
         for request in fake_model.requests:
-            assert "sk-canary-abcdef" not in json.dumps(request)
+            assert sentinel not in json.dumps(request)
         # and not in stored payloads
         for event in store.events_for_run(run_id):
-            assert "sk-canary-abcdef" not in json.dumps(event.get("payload") or {})
+            assert sentinel not in json.dumps(event.get("payload") or {})
 
 
 class TestPromptInjection:

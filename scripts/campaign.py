@@ -231,7 +231,7 @@ def stage_audit(candidate: dict[str, Any], prior: list[dict[str, Any]]) -> dict[
     for artifact in (OUT / ".." if False else OUT).glob("*.json"):
         text = artifact.read_text()
         for line in text.splitlines():
-            if secret_pattern.search(line) and "sk-canary" not in line:
+            if secret_pattern.search(line):
                 secret_hits.append(f"{artifact.name}:{line[:120]}")
     consistency_ok = candidate["uv_lock_sha256"] == sha256_of(ROOT / "uv.lock")
     migrations_present = bool(list((ROOT / "src" / "treepact" / "storage" / "migrations").glob("*.sql")))
