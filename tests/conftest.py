@@ -165,8 +165,8 @@ def workspace(tmp_path: pathlib.Path) -> pathlib.Path:
     repo.mkdir()
     for command in (
         ["git", "init", "-q"],
-        ["git", "config", "user.email", "campaign@treepact.local"],
-        ["git", "config", "user.name", "Campaign"],
+        ["git", "config", "user.email", "test-user"],
+        ["git", "config", "user.name", "test-user"],
     ):
         subprocess.run(command, cwd=repo, check=True)
     return repo

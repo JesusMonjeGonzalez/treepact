@@ -93,7 +93,7 @@ script.
 ## Fallo del proveedor de modelo
 
 - `treepact provider status` muestra salud sin enviar contenido del repo.
-- Un run que requiere inferencia con Hearthia caído falla explícitamente
+- Un run que requiere inferencia con el gateway local caído falla explícitamente
   (exit 15) y queda `failed`; nunca hay fallback remoto silencioso.
 - Observa/validación/evidence siguen funcionando sin proveedor.
 

@@ -16,6 +16,19 @@ htmlcov/
 
 # Local state
 verification/pilot/
+.treepact/
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+
+# Credentials and private material
+.env
+.env.*
+*.pem
+*.key
+credentials/
+secrets/
 
 # Internal operations documents (not part of the public project)
 HANDOFF.md

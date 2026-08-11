@@ -103,7 +103,7 @@ class TestEnvironmentAllowlist:
 
     @pytest.mark.parametrize(
         "name",
-        ["SSH_AUTH_SOCK", "AWS_ACCESS_KEY_ID", "MY_TOKEN", "DB_PASSWORD", "API_KEY", "BRAIN_TOKEN"],
+        ["SSH_AUTH_SOCK", "AWS_ACCESS_KEY_ID", "MY_TOKEN", "DB_PASSWORD", "API_KEY", "LOCAL_MEMORY_TOKEN"],
     )
     def test_secret_detector(self, name: str) -> None:
         assert is_secret_variable(name)
