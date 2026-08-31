@@ -599,6 +599,30 @@ def runs_command(
     typer.echo(f"{len(rows)} run(s)")
 
 
+def review_command(cfg: Config, run_id: str | None, limit: int, limit_explicit: bool) -> None:
+    """Emit one versioned JSON document without changing storage or files."""
+    import re
+
+    from treepact.review import RunDetailDocument, RunListDocument, review_run, review_runs
+
+    if not 1 <= limit <= 100:
+        raise ConfigurationError("--limit must be between 1 and 100", code="limit_invalid")
+    document: RunDetailDocument | RunListDocument
+    if run_id is not None:
+        if limit_explicit:
+            raise ConfigurationError(
+                "--limit and --run-id are mutually exclusive", code="review_form_invalid"
+            )
+        if re.fullmatch(r"run_[a-f0-9]{32}", run_id) is None:
+            raise ConfigurationError(
+                "--run-id must match run_<32 lowercase hex>", code="run_id_invalid"
+            )
+        document = review_run(cfg, run_id)
+    else:
+        document = review_runs(cfg, limit)
+    typer.echo(json.dumps(document.model_dump(mode="json", by_alias=True), separators=(",", ":")))
+
+
 def projects_command(cfg: Config, active_only: bool) -> None:
     """List registered projects and last known Pact metadata. Does not scan
     the home directory."""

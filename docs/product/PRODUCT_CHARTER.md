@@ -3,7 +3,7 @@
 ## Decision record
 
 - Date: 2026-08-11
-- Product status: standalone internal prototype planned
+- Product status: standalone alpha with an optional Hearthia host adapter
 - Initial operator: one independent developer on one Apple Silicon Mac
 - Initial interface: CLI
 - Initial repositories: local Git repositories

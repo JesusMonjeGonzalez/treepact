@@ -119,6 +119,42 @@ Provider events are signals. TreePact records its own execution and filesystem f
 - UI clients never open TreePact SQLite directly.
 - local gateway provider profiles are not TreePact domain models.
 
+## Hearthia host integration
+
+TreePact is available both as a standalone product and as an optional governed
+coding capability surfaced by Hearthia. The integration is deliberately a
+host adapter, not a package merge:
+
+- Hearthia locates a separately installed, version-pinned `treepact`
+  executable.
+- A human may delegate `doctor`, `validate` and `run`, plus bounded human
+  `status`, `diff`, `evidence` and `verify` views, through the Hearthia CLI.
+- Invocation uses a fixed argument vector without a shell and preserves
+  TreePact exit codes.
+- TreePact remains the sole owner of Pacts, worktrees, SQLite state, event
+  chains, decision bundles and recovery.
+- Hearthia obtains structured review data only by invoking one of
+  `treepact review --schema-version 1 --limit N` (default 20, range 1..100) or
+  `treepact review --schema-version 1 --run-id run_<32 lowercase hex>`. It
+  validates `schemas/review.schema.json`, preserves exit codes, and does not
+  retain the response as a second source of truth.
+- The review projection excludes task text, canonical roots, worktree and
+  artifact paths, artifact content, prompts, provider payloads, logs and diffs.
+  TreePact opens existing SQLite state with URI `mode=ro`, enables
+  `query_only`, uses a short busy timeout, and performs no migration, recovery,
+  discovery, gate/event persistence, bundle generation or filesystem writes.
+- Hearthia remains the sole owner of model lifecycle and memory budgets.
+- Before an integrated run, Hearthia requires and warms a named loadout. The
+  operator keeps it aligned with the selected TreePact provider profile;
+  missing or over-budget loadouts fail before TreePact creates a run.
+- Neither product imports the other's internals or shares a database.
+- Hearthia MCP does not expose TreePact run, resume, cleanup or approval
+  operations; an agent cannot authorize its own governed run.
+
+This adapter does not change assurance levels. A run earns its TreePact level
+from observed runtime control and evidence, not from being launched through
+Hearthia.
+
 ## Update policy
 
 - Pin a supported runtime version or bounded compatibility range.

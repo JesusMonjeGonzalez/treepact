@@ -354,6 +354,30 @@ If those conditions fail, TreePact returns `needs_review` or requires a new run.
 
 ## Reviewing the result
 
+### Integration JSON
+
+`review` is the only stable machine-readable review surface:
+
+```bash
+treepact review --schema-version 1 --limit 20
+treepact review --schema-version 1 --run-id run_<32-lowercase-hex>
+```
+
+The list limit defaults to 20 and must be from 1 through 100. The two forms are
+exclusive: `--limit` is not accepted with `--run-id`. Successful stdout is one
+JSON document conforming to `schemas/review.schema.json`; diagnostics go to
+stderr using the normal human CLI error convention. Invalid input exits 10,
+missing storage or run data exits 20, and unexpected failures exit 21.
+
+The projection contains run identity, project identity, state, decision,
+reason, assurance and timestamps. Detail adds stored gate results, bundle
+availability, event-chain head and artifact metadata limited to ID, kind,
+digest, size and media type. It never includes task text, repository or
+worktree paths, artifact paths or content, prompts, provider payloads, logs or
+diffs. The command opens existing SQLite storage through `mode=ro` plus
+`query_only`; it performs no migrations, recovery, run discovery, gate/event
+persistence, bundle generation or directory creation.
+
 ### Evidence summary
 
 ```bash

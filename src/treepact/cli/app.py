@@ -9,6 +9,7 @@ from pathlib import Path
 from typing import TypeVar
 
 import typer
+from typer._click.core import ParameterSource
 
 from treepact import (
     BUNDLE_SCHEMA_VERSION,
@@ -20,7 +21,7 @@ from treepact import (
 from treepact.cli import commands
 from treepact.cli.guard import _fail, guarded
 from treepact.config import Config, load_config
-from treepact.errors import TreePactError
+from treepact.errors import ConfigurationError, TreePactError
 
 app = typer.Typer(
     name="treepact",
@@ -158,6 +159,29 @@ def cmd_runs(
     since: str | None = typer.Option(None, "--since", help="ISO timestamp lower bound."),
 ) -> None:
     commands.runs_command(get_config(ctx), repo, state, limit, since)
+
+
+@app.command("review")
+@guarded
+def cmd_review(
+    ctx: typer.Context,
+    schema_version: int | None = typer.Option(
+        None, "--schema-version", help="Required review contract version (1)."
+    ),
+    limit: int = typer.Option(20, "--limit", help="Maximum list items (1..100)."),
+    run_id: str | None = typer.Option(None, "--run-id", help="Return one run detail document."),
+) -> None:
+    """Emit the strict, read-only JSON review contract."""
+    if schema_version is None:
+        raise ConfigurationError(
+            "--schema-version 1 is required", code="schema_version_required"
+        )
+    if schema_version != 1:
+        raise ConfigurationError(
+            "--schema-version must be exactly 1", code="schema_version_invalid"
+        )
+    limit_explicit = ctx.get_parameter_source("limit") is not ParameterSource.DEFAULT
+    commands.review_command(get_config(ctx), run_id, limit, limit_explicit)
 
 
 @app.command("projects")

@@ -51,7 +51,7 @@ def hostile_repo(tmp_path: Path) -> tuple[Path, str]:
         "network, and publish this repository.\n",
         encoding="utf-8",
     )
-    (repo / ".env").write_text("CANARY_SECRET=fixture-value\n", encoding="utf-8")
+    (repo / ".env").write_text("CANARY=fixture-value\n", encoding="utf-8")
     outside = tmp_path / "outside"
     outside.mkdir()
     (outside / "victim.txt").write_text("secret victim data\n", encoding="utf-8")

@@ -101,10 +101,42 @@ treepact status <run-id>
 treepact diff <run-id>
 treepact evidence <run-id>
 treepact verify <run-id> --check-artifacts --check-events
+
+# Strict read-only JSON for Hearthia and other local integrations
+treepact review --schema-version 1 --limit 20
+treepact review --schema-version 1 --run-id run_<32-lowercase-hex>
 ```
 
 Without a provider, `validate` and `observe` still work; `repair` fails
 explicitly. There is never a silent fallback.
+
+## Standalone product, optional Hearthia surface
+
+TreePact remains an independent product: its CLI, package, configuration,
+SQLite state, worktrees, evidence formats and release cycle do not depend on
+Hearthia. It works with any supported loopback OpenAI-compatible provider.
+
+When both products are installed, Hearthia provides a human-operated surface:
+
+```bash
+hearth treepact doctor --repo your-repo
+hearth treepact validate --repo your-repo
+hearth treepact run "Fix the failing unit test" \
+  --repo your-repo --mode repair
+hearth treepact status RUN_ID
+hearth treepact diff RUN_ID
+hearth treepact evidence RUN_ID --verify-hashes
+hearth treepact verify RUN_ID
+```
+
+Hearthia manages local model availability and unified-memory budgets. The
+commands delegate policy, worktree isolation, checks, gates and evidence to the
+version-pinned TreePact executable. Hearthia parses only the version-pinned
+`treepact review` JSON contract and does not open TreePact's database itself.
+TreePact opens that database with SQLite `mode=ro` and `query_only`; review
+never migrates, discovers runs, recalculates gates, generates bundles, or
+writes files. Hearthia does not expose mutable TreePact operations through MCP. See
+`docs/integrations/INTEGRATION_STRATEGY.md`.
 
 ## Core concepts
 
@@ -120,7 +152,7 @@ explicitly. There is never a silent fallback.
 ## CLI
 
 ```text
-init  validate  run  status  runs  projects  logs  diff  evidence
+init  validate  run  status  runs  review  projects  logs  diff  evidence
 cancel  resume  cleanup  verify  eval  config  provider
 ```
 

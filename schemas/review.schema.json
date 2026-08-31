@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://treepact.local/schemas/review.schema.json",
+  "title": "TreePact read-only review contract",
+  "oneOf": [
+    { "$ref": "#/$defs/runListDocument" },
+    { "$ref": "#/$defs/runDetailDocument" }
+  ],
+  "$defs": {
+    "runListDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "schema_version", "kind", "generated_at", "runs"],
+      "properties": {
+        "schema": { "const": "treepact.review" },
+        "schema_version": { "const": 1 },
+        "kind": { "const": "run_list" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "runs": { "type": "array", "items": { "$ref": "#/$defs/runSummary" } }
+      }
+    },
+    "runDetailDocument": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema", "schema_version", "kind", "generated_at", "run"],
+      "properties": {
+        "schema": { "const": "treepact.review" },
+        "schema_version": { "const": 1 },
+        "kind": { "const": "run_detail" },
+        "generated_at": { "type": "string", "format": "date-time" },
+        "run": { "$ref": "#/$defs/runDetail" }
+      }
+    },
+    "runSummary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "project_id", "state", "decision", "reason_code", "assurance_level", "created_at", "updated_at"],
+      "properties": {
+        "run_id": { "type": "string", "pattern": "^run_[a-f0-9]{32}$" },
+        "project_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "state": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "decision": { "type": ["string", "null"], "maxLength": 64 },
+        "reason_code": { "type": ["string", "null"], "maxLength": 128 },
+        "assurance_level": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "runDetail": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["run_id", "project_id", "state", "decision", "reason_code", "assurance_level", "created_at", "updated_at", "gates", "evidence"],
+      "properties": {
+        "run_id": { "type": "string", "pattern": "^run_[a-f0-9]{32}$" },
+        "project_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "state": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "decision": { "type": ["string", "null"], "maxLength": 64 },
+        "reason_code": { "type": ["string", "null"], "maxLength": 128 },
+        "assurance_level": { "type": "string", "minLength": 1, "maxLength": 16 },
+        "created_at": { "type": "string", "format": "date-time" },
+        "updated_at": { "type": "string", "format": "date-time" },
+        "gates": { "type": "array", "items": { "$ref": "#/$defs/gate" } },
+        "evidence": { "$ref": "#/$defs/evidence" }
+      }
+    },
+    "gate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["gate_id", "state", "reason_code", "evidence_refs", "calculated_at"],
+      "properties": {
+        "gate_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "state": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "reason_code": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "evidence_refs": { "type": "array", "items": { "type": "string" } },
+        "calculated_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "evidence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["bundle_available", "event_chain_head", "artifacts"],
+      "properties": {
+        "bundle_available": { "type": "boolean" },
+        "event_chain_head": { "type": ["string", "null"], "pattern": "^[a-f0-9]{64}$" },
+        "artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact" } }
+      }
+    },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["artifact_id", "kind", "sha256", "size_bytes", "media_type"],
+      "properties": {
+        "artifact_id": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "kind": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "media_type": { "type": "string", "minLength": 1, "maxLength": 255 }
+      }
+    }
+  }
+}
