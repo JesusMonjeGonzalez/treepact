@@ -7,9 +7,10 @@
 </p>
 
 <p align="center">
+  <a href="https://github.com/JesusMonjeGonzalez/treepact/releases/tag/v0.2.0"><img src="https://img.shields.io/badge/release-v0.2.0-9B59B6" alt="Release v0.2.0"></a>
   <img src="https://img.shields.io/badge/python-3.12-3776AB?logo=python&logoColor=white" alt="Python 3.12">
   <img src="https://img.shields.io/badge/license-MIT-2E7D32" alt="MIT license">
-  <img src="https://img.shields.io/badge/tests-170%20passing-4A7C3C" alt="170 tests passing">
+  <img src="https://img.shields.io/badge/tests-183%20passing-4A7C3C" alt="183 tests passing">
   <img src="https://img.shields.io/badge/status-historical%20M1%E2%80%93M9%20verification-9B59B6" alt="Historical M1-M9 verification">
   <img src="https://img.shields.io/badge/data-local%20only-2E7D32" alt="Local-only data">
 </p>
@@ -19,11 +20,11 @@
 ## Status
 
 The recorded M1-M9 candidate completed a nine-stage verification campaign and
-received a **go** verdict for an internal pilot. The published tree includes a
-small post-campaign refactor that anonymizes provider and project names for
-open-source distribution. The current tree passes the full test suite, ruff,
-and mypy; no new nine-stage campaign has been claimed for the published
-refactor.
+received a **go** verdict for an internal pilot. The v0.2.0 source release adds
+the strict, read-only `review` contract used by Hearthia and other local
+integrations. The project suite (`uv run pytest tests`) contains 183 passing
+tests and the current tree passes ruff and mypy; no new nine-stage campaign has
+been claimed for this post-M9 addition.
 
 The internal pilot data and operator-specific runbooks are intentionally not
 part of this repository.
@@ -188,6 +189,10 @@ nine stages:
 - Cross-runtime parity: the same Pact, checks, and decision in the native and
   external-agent runtimes
 - Full requirement-to-test traceability with a defect register
+
+The historical campaign counted 170 tests. The current source suite adds 13
+tests for the read-only review contract; verification fixtures are kept outside
+the explicit `pytest tests` command.
 
 See `verification/FINAL_REPORT.md` and `verification/DEFECT_REGISTER.md`.
 Known honest limitations: evaluations run on synthetic fixtures (real

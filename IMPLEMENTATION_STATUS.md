@@ -21,6 +21,16 @@ Los exit gates M1-M8 significan `implemented_unverified`. Ningún criterio de ac
 | M8 Primer runtime externo (OpenCode) | `implemented_unverified` | Mismo Pact en native y externo | Adaptador OpenCode 1.18.15 verificado contra API real (OpenAPI + SSE): servidor dedicado loopback con password efímero (OPENCODE_SERVER_PASSWORD + Basic auth), puerto aleatorio, mDNS off, CORS vacío; aislamiento completo XDG_CONFIG/CACHE/DATA/STATE por run (nunca toca el storage real del operador — verificado); config generada con solo el provider loopback y tools de bypass deshabilitadas (bash/write/edit/patch/web/http/task/subagents); preflight con inventario de providers (solo treepact-local + opencode interno), skills vacías, sin plugins, sin drift de config; descubrimiento verificado: el loop de agente solo corre con el stream global /api/event suscrito; prompt delivery steer; eventos SSE traducidos a eventos TreePact; cancelación vía /interrupt; reconciliación Git independiente; assurance TP2 honesta (ADR 0017: plugin TS fijado como fuente, carga requiere bun → M9+); `run --runtime opencode` con version check y runtime_incompatible exit 15 |
 | M9 Verificación consolidada | `verified` | Campaña única; go/narrow/no-go | Candidato congelado (digest árbol + uv.lock, sin Git por restricción no-commit); dependencias de test añadidas (pytest, hypothesis, coverage, ruff, mypy, pip-audit); 170 tests (unit 105, property 8, integración 18, seguridad 16, recuperación 12, recursos 5, evals 6); Stage 1 estático (ruff, mypy, pip-audit, lock --check, compileall, búsqueda de APIs prohibidas, inventario de migraciones, schemas), Stages 2-7 pytest, Stage 8 comparación native vs OpenCode (mismo pact, mismos gates, misma decisión), Stage 9 auditoría (54 filas de trazabilidad requirement→risk→test, scan de secretos, consistencia de candidato); 8 defectos reales corregidos (D-001..D-008) con fallos iniciales preservados en campaign_report_initial.json; DEFECT_REGISTER.md; informe final con veredicto **go** para piloto M10 |
 
+## Post-M9 additions
+
+- **v0.2.0 read-only review contract:** `treepact review` projects run summaries and
+  evidence metadata through a strict schema-versioned JSON document. It opens the
+  existing SQLite store read-only, validates the schema, and never recalculates
+  gates, runs checks, generates bundles, or writes files.
+- **Current source verification:** 183 project tests pass with `uv run pytest tests`,
+  plus ruff and mypy. This is an integration addition, not a new consolidated M9
+  campaign or a new M10 pilot decision.
+
 ## Decisiones de implementación
 
 Pendiente de registro conforme se tomen. Toda desviación de M0 se documenta en un ADR nuevo que supersede, nunca reescribiendo la historia.

@@ -6,7 +6,7 @@ actions, executes the declared checks itself, and produces an evidence
 bundle for human review.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 PACT_SCHEMA_VERSION = 1
 EVENT_SCHEMA_VERSION = 1
