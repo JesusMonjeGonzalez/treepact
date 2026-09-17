@@ -8,7 +8,9 @@ Formal automated tests and the consolidated evaluation campaign are intentionall
 
 Milestone exit gates M1-M8 are implementation checkpoints, not verified readiness gates. They may be marked `implemented_unverified`; only M9 can mark their acceptance criteria `verified`.
 
-This plan does not authorize CI/CD work.
+This plan does not authorize product CI/CD work. The operator-authorized
+[ADR 0019](docs/adr/0019-repository-secret-scanning.md) permits repository secret
+scanning only, no product CI/CD capability; local verification remains unchanged.
 
 ## Global constraints
 
