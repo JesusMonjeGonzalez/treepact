@@ -22,6 +22,7 @@ The implementation agent must create one Markdown ADR per decision below using s
 | 0014 | No merge, push, publish, deploy, or release operations |
 | 0015 | Native macOS checks use a trusted-harness lane until stronger isolation exists |
 | 0016 | OpenCode is the first external runtime; Claude Code requires a later egress ADR |
+| [0019](0019-repository-secret-scanning.md) | Repository secret scanning only; narrow exception to ADR 0012, no product CI/CD capability |
 
 ## Deferred decisions
 
