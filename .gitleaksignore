@@ -1,0 +1,4 @@
+# Synthetic canary written by the hostile_repo pytest fixture under tmp_path.
+# Historical context reviewed with literals redacted; see docs/security/SECURITY_MODEL.md.
+# Exact historical finding only; no file, directory or rule-wide exclusion.
+b1414e18fc8cea4e4fdeab01362629941d788f98:tests/security/test_security.py:generic-api-key:54
