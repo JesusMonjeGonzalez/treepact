@@ -128,6 +128,51 @@ Docker is useful only for compatible Linux workloads and is not a universal macO
 - Fake canary secrets are included in final verification fixtures.
 - A detector miss remains possible and is documented.
 
+### Repository secret scanning
+
+Repository hygiene is separate from product verification and the local M9
+campaign. With an already installed Gitleaks 8.30.1, scan all locally available Git
+history with fully redacted output:
+
+```sh
+gitleaks git --redact=100 --no-banner --no-color --log-opts="--all --full-history" .
+```
+
+This does not cover unfetched refs, unreachable objects or uncommitted files.
+Review findings privately, including synthetic security fixtures; do not add
+broad exclusions or assume that every test credential is harmless. Rotate real
+credentials before planning history cleanup.
+
+[ADR 0019](../adr/0019-repository-secret-scanning.md) records the operator-authorized
+exception to [ADR 0012](../adr/0012-no-cicd.md): repository secret scanning only,
+no product CI/CD capability. `.github/workflows/secrets.yml` scans on every push,
+pull request and manual dispatch with full fetched history and `--redact=100`.
+It does not execute project code, run product tests, build, publish or deploy.
+It does not replace the local verification campaign.
+
+Checkout is pinned to a commit, uses only `contents: read` and does not persist
+credentials. Gitleaks 8.30.1 is downloaded and verified against a pinned SHA-256
+before execution; source: [upstream checksums](https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_checksums.txt).
+Version updates require reviewing the release and updating the checksum together.
+Findings and scanner errors fail the job; no reports are uploaded, no PR comments
+are posted, and `pull_request_target` is not used. Required checks and repository
+Actions settings are separate owner decisions.
+
+#### Reviewed historical fixture
+
+The `generic-api-key` finding at `tests/security/test_security.py:54` in commit
+`b1414e18fc8cea4e4fdeab01362629941d788f98` is a synthetic canary. Historical AST
+inspection, without executing the file and with all literal output redacted,
+confirmed a `pytest.fixture` named `hostile_repo` writing a literal assignment
+whose value contains a canary marker into a repository created under `tmp_path`.
+The security suite includes denied environment reads and a fake-model test for
+preventing secrets from reaching model requests or event reports. No credential
+value is reproduced here.
+
+`.gitleaksignore` excludes only that exact commit/file/rule/line fingerprint.
+It does not suppress the rule, other test files, or future occurrences. Any new
+finding requires separate review; do not expand this to a path-wide exclusion.
+
 ## Prompt injection controls
 
 Repository content, memory fragments, issue text, web pages, logs, tool output, and messages are wrapped as external untrusted content with source metadata.
